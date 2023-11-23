@@ -4,6 +4,30 @@ def linebreak():
     """Prints a linebreak."""
     print('----------------------------------------')
     
+def format_formula(formula):
+    """
+    Format the formula to be more readable.
+    """
+    if type(formula) is str:
+        return formula
+    elif type(formula) is bool:
+        return formula
+    elif formula == []:
+        return None
+    
+    op = formula[0]
+
+    if op in ['AND', 'OR']:
+        return "(" + "".join(f"{op} {format_formula(var)} " for var in formula[1:])[len(op):] + ")"
+    elif op == 'NOT':
+        return f"({op} {format_formula(formula[1])})"
+    elif op == 'IMPLIES':
+        return f"({format_formula(formula[1])} {op} {format_formula(formula[2])})"
+    elif op == 'EQUIV':
+        return f"({format_formula(formula[1])} {op} {format_formula(formula[2])})"
+    else:  # Variable
+        return formula
+    
 def evaluate(formula, assignment):
     """
     Recursively evaluate the formula based on the assignment.
@@ -95,5 +119,5 @@ if __name__ == '__main__':
 
     # Evaluate the formula
     for i, formula in enumerate(formulas):
-        print(f"Formula {i+1}: {formula}")
+        print(f"Formula {i+1}: {format_formula(formula)}")
         logical_satisfiability(formula)
