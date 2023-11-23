@@ -68,7 +68,6 @@ def logical_satisfiability(formula):
     vars_ = getAllVars(formula)
     all_assignments = assignments = [dict(zip(vars_, values)) for values in itertools.product([False, True], repeat=len(vars_))]
 
-    linebreak()
     for assignment in assignments:
         cur = evaluate(formula, assignment)
         res = res or cur
@@ -76,12 +75,12 @@ def logical_satisfiability(formula):
             suiting_assignments.append(assignment)
     if res:
         if suiting_assignments == all_assignments:
-            print('Formula: {}, Result: Tautology'.format(i+1))
+            print('Result: Tautology')
         else:
             for suiting_assignment in suiting_assignments:
-                print('Formula: {}, Result: Satisfiable, Assignments: {}'.format(i+1, suiting_assignment))
+                print('Result: Satisfiable, Assignments: {}'.format(suiting_assignment))
     else:
-        print('Formula: {}, Result: Unsatisfiable'.format(i+1))
+        print('Result: Unsatisfiable')
     linebreak()
     
 if __name__ == '__main__':
@@ -96,4 +95,5 @@ if __name__ == '__main__':
 
     # Evaluate the formula
     for i, formula in enumerate(formulas):
+        print(f"Formula {i+1}: {formula}")
         logical_satisfiability(formula)
